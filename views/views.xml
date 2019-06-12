@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="dotmatrix.list">
+      <field name="name">dotmatrix list</field>
+      <field name="model">dotmatrix.dotmatrix</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="dotmatrix.action_window">
+      <field name="name">dotmatrix window</field>
+      <field name="res_model">dotmatrix.dotmatrix</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="dotmatrix.action_server">
+      <field name="name">dotmatrix server</field>
+      <field name="model_id" ref="model_dotmatrix_dotmatrix"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="dotmatrix" id="dotmatrix.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="dotmatrix.menu_1" parent="dotmatrix.menu_root"/>
+    <menuitem name="Menu 2" id="dotmatrix.menu_2" parent="dotmatrix.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="dotmatrix.menu_1_list" parent="dotmatrix.menu_1"
+              action="dotmatrix.action_window"/>
+    <menuitem name="Server to list" id="dotmatrix" parent="dotmatrix.menu_2"
+              action="dotmatrix.action_server"/>
+    -->
+  </data>
+</odoo>

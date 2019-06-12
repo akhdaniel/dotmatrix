@@ -1,0 +1,125 @@
+<odoo>
+    <data>
+
+        <record id="dotmatrix_invoice" model="mail.template">
+            <field name="name">Dot Matrix Invoice</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="subject">Dot Matrix Invoice</field>
+            <field name="body_html"><![CDATA[
+${'INVOICE'.rjust(30)} ${object.number}
+${''.rjust(80, '-')}
+${'Customer:'.rjust(20)} ${object.partner_id.display_name.ljust(20)} ${'Date:'.rjust(20)} ${object.date_invoice}
+${' '.rjust(20)} ${object.partner_id.street.ljust(20) if object.partner_id.street else ''.ljust(20) } ${'Salesperson:'.rjust(20)} ${object.user_id.name}
+${''.rjust(20)} ${object.partner_id.street2.ljust(20) if object.partner_id.street2 else ''.ljust(20)} ${'Due Date:'.rjust(20)} ${object.date_due}
+${''.rjust(20)} ${object.partner_id.city.ljust(20) if object.partner_id.city else ''.ljust(20)} ${'Payment Terms:'.rjust(20)} ${object.payment_term_id.name if object.payment_term_id else ''}
+${''.rjust(20)} ${object.partner_id.state_id.name if object.partner_id.state_id else ''} ${object.partner_id.zip}
+${''.rjust(20)} ${object.partner_id.country_id.name if object.partner_id.country_id else ''}
+
+${'PRODUCT LINES'}
+${''.rjust(80, '-')}
+${'Product'.ljust(29)} ${'Qty'.ljust(5)} ${'Price'.rjust(12)} ${'Disc'.rjust(7)} ${'Taxes'.ljust(8)} ${'Subtotal'.rjust(13)}
+${''.rjust(80, '-')}
+% for l in object.invoice_line_ids:
+${l.name[:28].ljust(29)} ${"{:4,.0f}".format(l.quantity).rjust(5)} ${"{:4,.0f}".format(l.price_unit).rjust(12)} ${"{:4,.0f}".format(l.discount).rjust(7)} ${l.invoice_line_tax_ids.name.ljust(8) if l.invoice_line_tax_ids else ''.ljust(8) } ${"{:4,.0f}".format(l.price_subtotal).rjust(13)}
+% endfor
+${''.rjust(80, '-')}
+${'Untaxed Amount:'.rjust(65)} ${"{:4,.0f}".format(object.amount_untaxed).rjust(13)}
+${'Tax:'.rjust(65)} ${"{:4,.0f}".format(object.amount_tax).rjust(13)}
+${'Total:'.rjust(65)} ${"{:4,.0f}".format(object.amount_total).rjust(13)}
+]]></field>
+
+        </record>
+
+
+        <record id="dotmatrix_po" model="mail.template">
+            <field name="name">Dot Matrix PO</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="subject">Dot Matrix PO</field>
+            <field name="body_html"><![CDATA[
+${'PURCHASE ORDER'.rjust(30)} ${object.name}
+${''.rjust(80, '-')}
+${'Vendor:'.rjust(20)} ${object.partner_id.display_name.ljust(20)} ${'Order Date:'.rjust(18)} ${object.date_order}
+${'Vendor Reference:'.rjust(20)} ${object.partner_ref}
+
+Products
+
+${''.rjust(80, '-')}
+${'Product'.ljust(25)} ${'Sched. Date'.ljust(18)} ${'Qty'.rjust(6)} ${'Unit Price'.rjust(9)} ${'Taxes'.ljust(7)} ${'Subtotal'.rjust(10)}
+${''.rjust(80, '-')}
+% for l in object.order_line
+${l.product_id.display_name[:25].ljust(25)} ${str(l.date_planned).ljust(18)} ${"{:4,.0f}".format(l.product_qty).rjust(6)} ${"{:4,.0f}".format(l.price_unit).rjust(9)} ${l.taxes_id.names.ljust(7) if l.taxes_id else ''.ljust(7)} ${"{:4,.0f}".format(l.price_subtotal).rjust(10) }
+% endfor
+
+${''.rjust(80, '-')}
+
+
+]]></field>
+
+        </record>
+
+
+
+        <record id="dotmatrix_picking" model="mail.template">
+            <field name="name">Dot Matrix Picking</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="subject">Dot Matrix Picking</field>
+            <field name="body_html"><![CDATA[
+${object.name}
+${''.rjust(80, '-')}
+${'Partner:'.rjust(20)} ${object.partner_id.display_name.ljust(20)} ${'Scheduled Date:'.rjust(18)} ${object.scheduled_date}
+${'Operation Type:'.rjust(20)} ${object.picking_type_id.name.ljust(20)} ${'Source Document:'.rjust(18)} ${object.origin}
+${'Back Order of:'.rjust(20)} ${object.backorder_id.name if object.backorder_id else ''}
+
+Products
+${''.rjust(80, '-')}
+${'Product'.ljust(59)} ${'Qty'.ljust(20)}
+${''.rjust(80, '-')}
+% for l in object.move_ids_without_package
+${l.product_id.display_name.ljust(59)} ${"{:4,.2f}".format(l.product_uom_qty).rjust(20)}
+% endfor
+${''.rjust(80, '-')}
+
+
+
+]]></field>
+
+        </record>
+
+
+
+
+
+        <record id="dotmatrix_so" model="mail.template">
+            <field name="name">Dot Matrix SO</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">Dot Matrix SO</field>
+            <field name="body_html"><![CDATA[
+${'SALE ORDER'.rjust(30)} ${object.name}
+${''.rjust(80, '-')}
+${'Customer:'.rjust(20)} ${object.partner_id.display_name.ljust(20)} ${'Confirm Date:'.rjust(18)} ${object.confirmation_date}
+${''.rjust(20)} ${object.partner_id.street.ljust(20) if object.partner_id.street else ''.ljust(20) } ${'Payment Terms:'.rjust(20)} ${object.payment_term_id.name if object.payment_term_id else ''}
+${''.rjust(20)} ${object.partner_id.street2.ljust(20) if object.partner_id.street2 else ''.ljust(20)}
+${''.rjust(20)} ${object.partner_id.city.ljust(20) if object.partner_id.city else ''.ljust(20)}
+${''.rjust(20)} ${object.partner_id.state_id.name if object.partner_id.state_id else ''} ${object.partner_id.zip}
+${''.rjust(20)} ${object.partner_id.country_id.name if object.partner_id.country_id else ''}
+
+Order Lines
+${''.rjust(80, '-')}
+${'Product'.ljust(24)} ${'Qty'.ljust(6)} ${'Unit Price'.ljust(10)} ${'Taxes'.ljust(9)} ${'Subtotal'.ljust(27)}
+${''.rjust(80, '-')}
+% for l in object.order_line
+${l.name.ljust(24)} ${"{:4,.2f}".format(l.product_uom_qty).rjust(6)} ${"{:4,.2f}".format(l.price_unit).rjust(10)} ${l.tax_id.name.ljust(9) if l.tax_id else ''.ljust(9)} ${"{:4,.2f}".format(l.price_subtotal).rjust(27)}
+% endfor
+${''.rjust(80, '-')}
+${'Untaxed Amount:'.rjust(51)} ${"{:4,.2f}".format(object.amount_untaxed).rjust(27)}
+${'Taxes:'.rjust(51)} ${"{:4,.2f}".format(object.amount_tax).rjust(27)}
+${'Total:'.rjust(51)} ${"{:4,.2f}".format(object.amount_total).rjust(27)}
+
+]]></field>
+
+        </record>
+
+
+
+    </data>
+</odoo>

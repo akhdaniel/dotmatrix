@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_po_dotmatrix_form" model="ir.ui.view">
+            <field name="name">purchase.order.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+
+                <header>
+                    <button string="Dot Matrix" icon="fa-print" type="object" name="dummy" custom="print"/>
+                </header>
+
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Dot Matrix">
+
+                        <button string="Refresh Printer Data" icon="fa-print"
+                                states="draft" type="object" name="action_refresh_printer_data"/>
+
+                        <pre>
+                            <field name="printer_data"/>
+                        </pre>
+
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
